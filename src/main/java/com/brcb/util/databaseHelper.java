@@ -13,12 +13,9 @@ public class databaseHelper {
 
 
     private static final Logger logger = LogManager.getLogger(databaseHelper.class);
-    /*接收一个返回值*/
-    ResultSet rs = null;
-    /*数据库流*/
-    PreparedStatement pst = null;
-    /*数据库连接*/
-    Connection con = null;
+    /*接收一个返回值*/ ResultSet rs = null;
+    /*数据库流*/ PreparedStatement pst = null;
+    /*数据库连接*/ Connection con = null;
 
     public static GetDBConf getDBConf = GetDBConf.getInstance();
     /*获取连接*/
@@ -35,7 +32,7 @@ public class databaseHelper {
                 con = DriverManager.getConnection(url, user, password);
             }
         } catch (Exception e) {
-            logger.error("exception is", e);
+            logger.error("exception is ", e);
         }
         return con;
     }
@@ -50,6 +47,8 @@ public class databaseHelper {
         try {
             /*将sql流化*/
             putPrepared(sql, param);
+            String completeSql = getCompleteSql(sql, param);
+            logger.info("Complement SQL statement: {}" , completeSql);
             while (rs.next()) {
                 /*获取实例*/
                 T t = clazz.getDeclaredConstructor().newInstance();
@@ -59,8 +58,9 @@ public class databaseHelper {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            closeAll(con, pst, rs);
         }
-        closeAll(con, pst, rs);
         return tList;
     }
 
@@ -69,6 +69,9 @@ public class databaseHelper {
         T onlyOne = null;
         try {
             putPrepared(sql, param);
+            String completeSql = getCompleteSql(sql, param);
+            logger.info("Complement sql statement {}", completeSql);
+            logger.info(rs);
             while (rs.next()) {
                 /*获取实例*/
                 onlyOne = clazz.getDeclaredConstructor().newInstance();
@@ -81,6 +84,42 @@ public class databaseHelper {
         closeAll(con, pst, rs);
         return onlyOne;
     }
+
+    public Integer update(String sql, Object... params) throws Exception {
+        con = getCon();
+        int count = 0;
+        pst = con.prepareStatement(sql);
+        if (params != null && params.length >= 1) {
+            for (int i = 0; i < params.length; i++) {
+                pst.setObject(i + 1, params[i]);
+            }
+        }
+        String completeSql = getCompleteSql(sql, params);
+        logger.info("Complete sql statement: " + completeSql);
+
+        count = pst.executeUpdate();
+        logger.info("have influenced {} digit date", count);
+        return count;
+    }
+
+
+    public static String getCompleteSql(String sql, Object[] params) {
+        if (params == null) {
+            return sql;
+        }
+
+        for (Object param : params) {
+            String paramValue;
+            if (param instanceof String) {
+                paramValue = "'" + param + "'";
+            } else {
+                paramValue = param.toString();
+            }
+            sql = sql.replaceFirst("\\?", paramValue);
+        }
+        return sql;
+    }
+
 
     private <T> void resolerResultset(T onlyOne, Field[] declaredFields) throws SQLException, IllegalAccessException {
         for (Field declaredfield : declaredFields) {
@@ -98,7 +137,7 @@ public class databaseHelper {
 
     private void putPrepared(String sql, Object[] param) throws SQLException {
         pst = con.prepareStatement(sql);
-        if (param != null && param.length > 0) {
+        if (param != null && param.length >= 1) {
             for (int i = 0; i < param.length; i++) {
                 pst.setObject(i + 1, param[i]);
             }
@@ -112,6 +151,7 @@ public class databaseHelper {
                 rs.close();
             } catch (Exception e) {
                 logger.error("Failed to close ResultSet", e);
+
             }
         }
 
@@ -122,10 +162,10 @@ public class databaseHelper {
                 logger.error("Failed to close PreparedStatement", e);
             }
         }
-
         if (con != null) {
             try {
                 con.close();
+
             } catch (Exception e) {
                 logger.error("Failed to close Connection", e);
             }

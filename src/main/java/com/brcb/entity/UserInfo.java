@@ -1,42 +1,33 @@
 package com.brcb.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserInfo {
-    private  int id;
+public class UserInfo extends UserInfoKey implements Serializable {
+    private String password;
 
-    private  String username;
+    private Integer user_type;
 
-    private  String password;
+    private String email;
 
-    private  String email;
-
-    private String user_type;
+    private Date create_time;
 
     private Date create_date;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
+    }
+
+    public Integer getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(Integer user_type) {
+        this.user_type = user_type;
     }
 
     public String getEmail() {
@@ -44,15 +35,15 @@ public class UserInfo {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim();
     }
 
-    public String getUser_type() {
-        return user_type;
+    public Date getCreate_time() {
+        return create_time;
     }
 
-    public void setUser_type(String user_type) {
-        this.user_type = user_type;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 
     public Date getCreate_date() {

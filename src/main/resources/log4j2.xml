@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN"><!--日志级别-->
+<!--
+  ~ Copyright (c) 2024. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<Configuration status="DEBUG">
     <Appenders>
-        <!-- 控制台输出 -->
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5level %logger{36} - %msg%n" charset="GBK"/>
         </Console>
-
-        <!-- 文件输出 -->
-        <File name="File" fileName="D:/logs/app.log" append="true">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </File>
+        <RollingFile name="RollingFile" fileName="D:/logs/app.log" filePattern="D:/logs/app-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
     </Appenders>
-
     <Loggers>
-        <!-- 根日志记录器 -->
         <Root level="info">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="RollingFile"/>
         </Root>
-
-        <!-- 包日志级别 -->
-        <Logger name="com.brcb.util.GetDBConf" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="File"/>
-        </Logger>
     </Loggers>
 </Configuration>

@@ -1,0 +1,108 @@
+/*
+ * Copyright (c) 2024. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.form button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form button:hover {
+    background-color: #2980b9;
+}
+
+.add-button {
+    margin-left: auto;
+    background-color: #2ecc71;
+}
+
+.add-button:hover {
+    background-color: #27ae60;
+}
+
+.news-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.news-table th, .news-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.news-table th {
+    background: linear-gradient(45deg, #ff6f61, #d4af37, #6b5b95, #88b04b, #f7cac9);
+    color: white;
+    font-weight: bold;
+}
+
+.news-table tbody tr:nth-child(odd) {
+    background-color: rgba(142, 82, 156, 0.91);
+}
+
+.news-table tbody tr:nth-child(even) {
+    background-color: rgba(156, 82, 124, 0.91);
+}
+
+.actions a {
+    text-decoration: none;
+    color: #333;
+    padding: 4px 8px;
+    margin-right: 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.actions a:hover {
+    background-color: #f0f0f0;
+}

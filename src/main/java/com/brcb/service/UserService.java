@@ -4,6 +4,6 @@ import com.brcb.entity.UserInfo;
 
 public interface UserService {
 
-    public UserInfo login(String username)throws Exception;
+    public UserInfo login(String username) throws Exception;
 
 }

@@ -10,7 +10,7 @@ public class GetDBConf {
     private static Properties properties;
     private static GetDBConf getDBConf;
 
-    private GetDBConf(){
+    private GetDBConf() {
         properties = new Properties();
         InputStream resourceAsStream = GetDBConf.class.getClassLoader().getResourceAsStream("databases/databases.properties");
         try {
@@ -20,17 +20,16 @@ public class GetDBConf {
         }
     }
 
-    public static GetDBConf getInstance(){
-        if(getDBConf == null){
+    public static GetDBConf getInstance() {
+        if (getDBConf == null) {
             getDBConf = new GetDBConf();
         }
         return getDBConf;
     }
 
-    public String getProperty(String key){
+    public String getProperty(String key) {
         return properties.getProperty(key);
     }
-
 
 
 }

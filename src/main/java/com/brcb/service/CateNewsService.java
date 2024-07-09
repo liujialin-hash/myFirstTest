@@ -6,17 +6,22 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.brcb.dao;
+package com.brcb.service;
 
 import com.brcb.entity.News;
-import com.brcb.entity.NewsType;
 
 import java.util.List;
 
-public interface CateAllNewsType {
-
-    public List<NewsType> getAllCateAllNewsType();
+public interface CateNewsService {
 
 
+    public List<News> getAllNewsByType(String type);
 
+    public News getCateNewsById(String id);
+
+    public int updateById(News news)throws Exception;
+
+    public int deleteByCateNewsId(String id);
+
+    public int insert(News news);
 }

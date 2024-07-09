@@ -9,14 +9,19 @@
 package com.brcb.dao;
 
 import com.brcb.entity.News;
-import com.brcb.entity.NewsType;
 
 import java.util.List;
 
-public interface CateAllNewsType {
+public interface CateNews {
 
-    public List<NewsType> getAllCateAllNewsType();
+    public News getCateNewsById(String id);
 
+    public int updateCateNewsById(News news) throws Exception;
 
+    public List<News> getAllNewsByNewsType(String type);
+
+    public int deleteByCateNewsId(String id) throws Exception;
+
+    int insert(News news) throws Exception;
 
 }

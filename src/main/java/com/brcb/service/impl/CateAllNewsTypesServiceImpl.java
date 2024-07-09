@@ -10,8 +10,9 @@ package com.brcb.service.impl;
 
 import com.brcb.dao.CateAllNewsType;
 import com.brcb.dao.impl.CateAllNewsTypeImpl;
-import com.brcb.entity.newsType;
+import com.brcb.entity.NewsType;
 import com.brcb.service.CateAllNewsTypeService;
+
 
 import java.util.List;
 
@@ -19,12 +20,14 @@ public class CateAllNewsTypesServiceImpl implements CateAllNewsTypeService {
 
     CateAllNewsType cateAllNewsType;
 
-    public CateAllNewsTypesServiceImpl(){
-        cateAllNewsType=new CateAllNewsTypeImpl();
+    public CateAllNewsTypesServiceImpl() {
+        cateAllNewsType = new CateAllNewsTypeImpl();
     }
 
     @Override
-    public List<newsType> getCateAllNewsType() {
+    public List<NewsType> getCateAllNewsType() {
         return cateAllNewsType.getAllCateAllNewsType();
     }
+
+
 }

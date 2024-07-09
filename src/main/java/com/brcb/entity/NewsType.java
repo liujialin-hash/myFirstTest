@@ -1,31 +1,31 @@
 package com.brcb.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class newsType {
+public class NewsType implements Serializable {
+    private String id;
 
     private String name;
-
-    private int id;
 
     private Date create_date;
 
     private String create_name;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
 
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.name = name == null ? null : name.trim();
     }
 
     public Date getCreate_date() {

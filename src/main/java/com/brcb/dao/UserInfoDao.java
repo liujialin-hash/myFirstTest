@@ -8,6 +8,6 @@ public interface UserInfoDao {
 
     public List<UserInfo> getUsers(int id);
 
-    public UserInfo login(String username);
+    public UserInfo login(UserInfo username);
 
 }

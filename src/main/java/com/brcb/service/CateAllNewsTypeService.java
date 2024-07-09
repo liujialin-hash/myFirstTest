@@ -8,12 +8,15 @@
 
 package com.brcb.service;
 
-import com.brcb.entity.newsType;
+import com.brcb.entity.News;
+import com.brcb.entity.NewsType;
 
 import java.util.List;
 
 public interface CateAllNewsTypeService {
 
-    public List<newsType> getCateAllNewsType();
+    public List<NewsType> getCateAllNewsType();
+
+
 
 }

@@ -38,7 +38,6 @@ public enum FieldTypeEnum {
     },
 
     LONG {
-
         @Override
         public void setField(Object target, ResultSet rs, String fieldName, Field field) throws SQLException, IllegalAccessException {
             field.set(target, rs.getLong(fieldName));
@@ -50,7 +49,7 @@ public enum FieldTypeEnum {
             field.set(target, rs.getBoolean(fieldName));
         }
     },
-     SHORT{
+    SHORT {
         @Override
         public void setField(Object target, ResultSet rs, String fieldName, Field field) throws SQLException, IllegalAccessException {
             field.set(target, rs.getShort(fieldName));
@@ -61,28 +60,31 @@ public enum FieldTypeEnum {
     public abstract void setField(Object target, ResultSet rs, String fieldName, Field field) throws SQLException, IllegalAccessException;
 
 
-    public static FieldTypeEnum fromClass(Class<?> clazz){
-        if (clazz == Integer.class||clazz == int.class){
+    public static FieldTypeEnum fromClass(Class<?> clazz) {
+        if (clazz == Integer.class || clazz == int.class) {
             return INTEGER;
-        }else if (clazz == String.class){
+        } else if (clazz == String.class) {
             return STRING;
-        }else if (clazz == java.util.Date.class){
+        } else if (clazz == java.util.Date.class) {
             return DATE;
-        }else if (clazz == Double.class){
+        } else if (clazz == Double.class) {
             return DOUBLE;
-        }if (clazz == Float.class){
+        }
+        if (clazz == Float.class) {
             return FLOAT;
-        }if (clazz == Long.class){
+        }
+        if (clazz == Long.class) {
             return LONG;
-        }if (clazz == Boolean.class){
+        }
+        if (clazz == Boolean.class) {
             return BOOLEAN;
-        }if (clazz == Short.class){
+        }
+        if (clazz == Short.class) {
             return SHORT;
-        }else {
+        } else {
             throw new IllegalArgumentException("Unsupported field type: " + clazz);
         }
     }
-
 
 
 }
