@@ -48,14 +48,15 @@ public class CateNewsImpl extends databaseHelper implements CateNews {
     }
 
     @Override
-    public List<News> getAllNewsByNewsType(String type) {
+    public List<News> getAllNewsByNewsType(String type,Integer curPage,Integer pageSize) throws Exception {
         StringBuilder sql = new StringBuilder("select * from news");
         List<News> news = null;
         if (type != null && !type.equals("0")) {
-            sql.append(" where type_id = ?");
-            news = selectAll(sql.toString(), News.class, type);
+            sql.append(" where type_id = ? limit ?,?");
+            news = selectAll(sql.toString(), News.class, type ,curPage,pageSize);
         } else {
-            news = selectAll(sql.toString(), News.class);
+            sql.append(" limit ?,?");
+            news = selectAll(sql.toString(), News.class,curPage,pageSize);
         }
         logger.info("News date has been updated");
         return news;
@@ -76,6 +77,19 @@ public class CateNewsImpl extends databaseHelper implements CateNews {
                 "VALUES (?, ?, ?, ?, ?, ?,?)";
         int count = 0;
         count = update(sql, news.getId(), news.getTitle(), news.getAuthor(), news.getType_id(), news.getDigest(), news.getText(),news.getPig_path());
+        return count;
+    }
+
+    @Override
+    public Integer getCount(String typeId) throws Exception {
+        Integer count=0;
+        StringBuffer sql=new StringBuffer("select count(1) from news");
+        if (typeId!=null&&!typeId.isEmpty()){
+            sql.append(" where type_id=?");
+            count = selectOne(sql.toString(), Integer.class, typeId);
+        }else {
+            count=selectOne(sql.toString(), Integer.class);
+        }
         return count;
     }
 }

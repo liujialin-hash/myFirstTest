@@ -15,6 +15,7 @@ import com.brcb.service.CateAllNewsTypeService;
 import com.brcb.service.CateNewsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 import java.util.List;
 
@@ -30,8 +31,12 @@ public class CateNewsServiceImpl implements CateNewsService {
     }
 
     @Override
-    public List<News> getAllNewsByType(String type) {
-        return cateNews.getAllNewsByNewsType(type);
+    public List<News> getAllNewsByType(String type,Integer beginPage,Integer pageSize ) {
+        try {
+            return cateNews.getAllNewsByNewsType(type,beginPage,pageSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -65,5 +70,17 @@ public class CateNewsServiceImpl implements CateNewsService {
             throw new RuntimeException(e);
         }
         return insert;
+    }
+
+    @Override
+    public Integer getCount(String typeId) {
+        Integer count=0;
+        try {
+            count = cateNews.getCount(typeId);
+            System.out.println(count);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 }

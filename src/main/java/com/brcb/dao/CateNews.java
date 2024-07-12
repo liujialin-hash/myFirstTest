@@ -18,10 +18,13 @@ public interface CateNews {
 
     public int updateCateNewsById(News news) throws Exception;
 
-    public List<News> getAllNewsByNewsType(String type);
+    public List<News> getAllNewsByNewsType(String type,Integer curPage,Integer pageSize) throws Exception;
 
     public int deleteByCateNewsId(String id) throws Exception;
 
     int insert(News news) throws Exception;
+
+    public Integer getCount(String typeId)throws Exception;
+
 
 }

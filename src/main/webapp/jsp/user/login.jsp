@@ -144,7 +144,7 @@
     <%
         }
     %>
-    <form action="<%=request.getContextPath()%>/jsp/user/douserlogin.jsp" method="post">
+    <form action="<%=request.getContextPath()%>/jsp/user/douserlogin.jsp?flag=login&pageIndex=1" method="post">
         <label for="username">用户名:</label>
         <input id="username" name="username" type="text" required>
         <label for="password">密&nbsp;&nbsp;码:</label>

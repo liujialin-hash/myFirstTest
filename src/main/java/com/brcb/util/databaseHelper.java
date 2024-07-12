@@ -48,7 +48,7 @@ public class databaseHelper {
             /*将sql流化*/
             putPrepared(sql, param);
             String completeSql = getCompleteSql(sql, param);
-            logger.info("Complement SQL statement: {}" , completeSql);
+            logger.info("Complement SQL statement: {}", completeSql);
             while (rs.next()) {
                 /*获取实例*/
                 T t = clazz.getDeclaredConstructor().newInstance();
@@ -73,10 +73,14 @@ public class databaseHelper {
             logger.info("Complement sql statement {}", completeSql);
             logger.info(rs);
             while (rs.next()) {
-                /*获取实例*/
-                onlyOne = clazz.getDeclaredConstructor().newInstance();
-                Field[] declaredFields = clazz.getDeclaredFields();
-                resolerResultset(onlyOne, declaredFields);
+                if (clazz == Integer.class) { // 如果返回类型是Integer
+                    onlyOne = clazz.cast(rs.getInt(1));
+                } else {
+                    /*获取实例*/
+                    onlyOne = clazz.getDeclaredConstructor().newInstance();
+                    Field[] declaredFields = clazz.getDeclaredFields();
+                    resolerResultset(onlyOne, declaredFields);
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

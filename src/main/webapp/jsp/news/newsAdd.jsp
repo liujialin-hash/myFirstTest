@@ -81,6 +81,15 @@
 <body>
 <div class="container">
     <h2 onclick="">新增</h2>
+    <% Object msg = request.getAttribute("msg");
+        String error = "";
+        if (msg != null) {
+            error = msg.toString();
+        }
+    %>
+    <div>
+        <%=error%>
+    </div>
     <form action="<%=request.getContextPath()%>/jsp/news/doNewsAdd.jsp" method="post" enctype="multipart/form-data">
         <%--enctype="multipart/form-data--%>
 
@@ -105,8 +114,8 @@
         <input id="newsTitle" name="newsTitle">
         <label for="newsAbstract">新闻摘要</label>
         <input id="newsAbstract" name="newsAbstract">
-        <label for="editor1">新闻内容</label>
-        <textarea id="editor1" name="editor1" rows="4"></textarea>
+        <label for="newscontent">新闻内容</label>
+        <textarea id="newscontent" name="newscontent" rows="4"></textarea>
         <label for="newsAuthor">作者</label>
         <input id="newsAuthor" name="newsAuthor">
         <label for="newsPig">图片</label>

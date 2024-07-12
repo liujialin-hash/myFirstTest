@@ -3,7 +3,8 @@
 <%@ page import="com.brcb.entity.News" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.brcb.dao.CateNews" %>
-<%@ page import="com.brcb.dao.impl.CateNewsImpl" %><%--
+<%@ page import="com.brcb.dao.impl.CateNewsImpl" %>
+<%@ page import="com.brcb.util.Page" %><%--
   ~ Copyright (c) 2024. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
   ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
@@ -20,12 +21,18 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String turePage = "/MyTest_war/jsp/news/newsList.jsp";
+    String turePage = "/jsp/news/newsList.jsp";
     String newsType = request.getParameter("newsType");
     CateNews cate = new CateNewsImpl();
-    List<News> allNewsByType = cate.getAllNewsByNewsType(newsType);
-    session.setAttribute("newsList", allNewsByType);
+    List<News> allNewsByType = null;
+    Page pages = (Page)session.getAttribute("pages");
+    try {
+        allNewsByType = cate.getAllNewsByNewsType(newsType,pages.getCurPage(),pages.getPageSize());
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+    request.setAttribute("newsList", allNewsByType);
     session.setAttribute("newsType", newsType);
-    response.sendRedirect(turePage);
+    request.getRequestDispatcher(turePage).forward(request,response);
 
 %>

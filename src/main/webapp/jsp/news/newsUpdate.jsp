@@ -63,7 +63,7 @@
             background-color: #2980b9;
         }
     </style>
-    <script src="${pageContext.request.contextPath}/webjars/ckeditor/4.24.0-lts/basic/ckeditor.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/ckeditor/ckeditor.js"></script>
 </head>
 <body>
 <div class="container">
@@ -111,14 +111,9 @@
         <textarea id="newsAbstract" name="newsAbstract" rows="3"
                   required><%= (session.getAttribute("cateNewsById") != null) ? ((News) session.getAttribute("cateNewsById")).getDigest() : "" %></textarea>
 
-        <label for="editor1">新闻内容</label>
-        <textarea id="editor1" name="editor1" rows="3"
-                  required><%= (session.getAttribute("cateNewsById") != null) ? ((News) session.getAttribute("cateNewsById")).getText() : "" %></textarea>
-
-        <script>
-            // 将文本区域转换为 CKEditor
-            CKEDITOR.replace('editor1');
-        </script>
+        <label for="newscontent">新闻内容</label>
+        <textarea id="newscontent" name="newscontent"  class="ckeditor" cols=""
+                  ><%= (session.getAttribute("cateNewsById") != null) ? ((News) session.getAttribute("cateNewsById")).getText() : "" %></textarea>
 
         <label for="newsAuthor">新闻作者</label>
         <input type="text" id="newsAuthor" name="newsAuthor"

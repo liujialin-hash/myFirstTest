@@ -1,108 +1,116 @@
-<%@ page import="java.io.*" %>
 <%@ page import="org.apache.logging.log4j.Logger" %>
 <%@ page import="org.apache.logging.log4j.LogManager" %>
+<%@ page import="org.apache.commons.fileupload.servlet.ServletFileUpload" %>
+<%@ page import="org.apache.commons.fileupload.FileItem" %>
+<%@ page import="org.apache.commons.fileupload.FileItemFactory" %>
+<%@ page import="org.apache.commons.fileupload.disk.DiskFileItemFactory" %>
+<%@ page import="java.util.List" %>
+<%@ page import="org.apache.commons.fileupload.FileUploadException" %>
+<%@ page import="java.io.File" %>
 <%@ page import="com.brcb.service.CateNewsService" %>
 <%@ page import="com.brcb.service.impl.CateNewsServiceImpl" %>
-
-<%@ page import="java.util.UUID" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <jsp:useBean id="news" class="com.brcb.entity.News" scope="page"></jsp:useBean>
 
 <%
-    // 设置请求的字符编码为UTF-8
-    request.setCharacterEncoding("UTF-8");
-
     // 获取Logger实例
     Logger logger = LogManager.getLogger();
-
-    // 获取表单请求的boundary标志
-    String boundary = "--" + request.getHeader("Content-Type").split("boundary=")[1];
 
     // 初始化表单字段
     String newsType = "";
     String id = "";
     String newsAuthor = "";
-    String editor1 = "";
+    String newscontent = "";
     String newsTitle = "";
     String newsAbstract = "";
     String newsPig = "";
 
-    // 获取请求的输入流
-    InputStream inputStream = request.getInputStream();
-    // 将输入流包装成BufferedReader以便逐行读取
-    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-    String line;
-    // 用于暂存文件内容的输出流
-    ByteArrayOutputStream fileOutputStream = new ByteArrayOutputStream();
+    // 判断表单是否是文件表单
+    boolean multipartContent = ServletFileUpload.isMultipartContent(request);
 
-    // 按行读取输入流
-    while ((line = reader.readLine()) != null) {
-        // 判断是否为boundary
-        if (line.startsWith(boundary)) {
-            if (fileOutputStream.size() > 0) {
-                // 保存文件
-                String fileName = UUID.randomUUID().toString();
-                String filePath = application.getRealPath("/") + "uploads/" + fileName;
-                try (FileOutputStream fos = new FileOutputStream(filePath)) {
-                    // 将文件内容写入文件
-                    fileOutputStream.writeTo(fos);
-                }
-                // 设置文件路径
-                newsPig = fileName;
-                // 重置fileOutputStream以便处理下一个文件
-                fileOutputStream.reset();
-            }
-            // 读取Content-Disposition行
-            line = reader.readLine(); // 读取 Content-Disposition
-            String disposition = line;
+    if (multipartContent) {
+        // 创建一个FileItemFactory实例，用于处理文件上传
+        FileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
 
-            // 根据Content-Disposition确定表单字段
-            if (disposition.contains("name=\"newsType\"")) {
-                reader.readLine(); // 跳过空行
-                newsType = reader.readLine(); // 读取newsType的值
-            } else if (disposition.contains("name=\"id\"")) {
-                reader.readLine(); // 跳过空行
-                id = reader.readLine(); // 读取id的值
-            } else if (disposition.contains("name=\"newsAuthor\"")) {
-                reader.readLine(); // 跳过空行
-                newsAuthor = reader.readLine(); // 读取newsAuthor的值
-            } else if (disposition.contains("name=\"editor1\"")) {
-                reader.readLine(); // 跳过空行
-                editor1 = reader.readLine(); // 读取editor1的值
-            } else if (disposition.contains("name=\"newsTitle\"")) {
-                reader.readLine(); // 跳过空行
-                newsTitle = reader.readLine(); // 读取newsTitle的值
-            } else if (disposition.contains("name=\"newsAbstract\"")) {
-                reader.readLine(); // 跳过空行
-                newsAbstract = reader.readLine(); // 读取newsAbstract的值
-            } else if (disposition.contains("name=\"newsPig\"; filename=")) {
-                String fileName = disposition.split("filename=")[1].replace("\"", ""); // 获取文件名
-                reader.readLine(); // 跳过Content-Type行
-                reader.readLine(); // 跳过空行
-                while ((line = reader.readLine()) != null && !line.startsWith(boundary)) {
-                    fileOutputStream.write(line.getBytes("UTF-8")); // 将文件内容写入fileOutputStream
-                    fileOutputStream.write("\r\n".getBytes("UTF-8")); // 换行
+        try {
+            // 解析请求，获取表单项
+            List<FileItem> fileItems = upload.parseRequest(request);
+
+            for (FileItem fileItem : fileItems) {
+                if (fileItem.isFormField()) {
+                    // 处理普通表单字段
+                    switch (fileItem.getFieldName()) {
+                        case "newsType":
+                            newsType = fileItem.getString("UTF-8");
+                            break;
+                        case "id":
+                            id = fileItem.getString("UTF-8");
+                            break;
+                        case "newsAuthor":
+                            newsAuthor = fileItem.getString("UTF-8");
+                            break;
+                        case "newscontent":
+                            newscontent = fileItem.getString("UTF-8");
+                            break;
+                        case "newsTitle":
+                            newsTitle = fileItem.getString("UTF-8");
+                            break;
+                        case "newsAbstract":
+                            newsAbstract = fileItem.getString("UTF-8");
+                            break;
+                    }
+                } else {
+                    // 处理文件上传
+                    String name = fileItem.getName(); // 获取上传文件名
+                    String path = request.getServletContext().getRealPath("upload"); // 获取上传文件的存储路径
+                    File file = new File(path, name); // 创建文件对象，路径为path + name
+
+                    // 创建父目录（如果不存在）
+                    if (!file.getParentFile().exists()) {
+                        file.getParentFile().mkdirs();
+                    }
+
+                    // 写入文件到指定路径
+                    fileItem.write(file);
+
+                    // 保存文件路径到newsPig变量
+                    newsPig = file.getPath();
                 }
             }
+        } catch (FileUploadException e) {
+            // 处理文件上传异常
+            logger.error("文件上传失败", e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "文件上传失败");
+            return;
+        } catch (Exception e) {
+            // 处理文件写入异常
+            logger.error("文件写入失败", e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "文件写入失败");
+            return;
         }
     }
 
     // 设置news对象的属性
     news.setId(id);
     news.setAuthor(newsAuthor);
-    news.setText(editor1);
+    news.setText(newscontent);
     news.setType_id(newsType);
     news.setTitle(newsTitle);
     news.setDigest(newsAbstract);
     news.setPig_path(newsPig);
     logger.info(news); // 记录news对象信息
 
-    // 创建CateNewsService对象并插入news对象
+    // 处理业务逻辑，将news对象插入数据库
     CateNewsService service = new CateNewsServiceImpl();
     int insert = service.insert(news);
     if (insert == 1) {
-        response.sendRedirect(request.getContextPath() + "/jsp/news/insertWin.jsp"); // 插入成功后重定向到成功页面
+        // 插入成功后重定向到成功页面
+        response.sendRedirect(request.getContextPath() + "/jsp/news/insertWin.jsp");
     } else {
-        logger.error("插入失败"); // 插入失败时记录错误
+        // 插入失败时记录错误
+        logger.error("插入失败");
+        request.setAttribute("msg", "新增失败，请联系管理员");
+        request.getRequestDispatcher(request.getContextPath() + "/jsp/news/newsAdd.jsp").forward(request, response);
     }
 %>

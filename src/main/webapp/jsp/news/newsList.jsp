@@ -1,6 +1,9 @@
 <%@ page import="com.brcb.entity.NewsType" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.brcb.entity.News" %>
+<%@ page import="com.brcb.service.CateNewsService" %>
+<%@ page import="com.brcb.service.impl.CateNewsServiceImpl" %>
+<%@ page import="com.brcb.util.Page" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -59,7 +62,7 @@
         <tbody>
         <%
             @SuppressWarnings("unchecked")
-            List<News> newsList = (List<News>) session.getAttribute("newsList");
+            List<News> newsList = (List<News>) request.getAttribute("newsList");
             if (newsList != null) {
                 for (News news : newsList) {
 
@@ -87,7 +90,26 @@
         </tbody>
     </table>
     <div class="pagination">
+        <%
+            CateNewsService s = new CateNewsServiceImpl();
+            Integer count = s.getCount(null);
+            Page pages = (Page) session.getAttribute("pages");
+            String type = (String) session.getAttribute("type");
+        %>
+
         <!-- 在这里实现分页逻辑 -->
+        共<%=count%>条记录&emsp;当前页<%=pages.getCurPage()%>/<%=pages.getTotalPageCount()%>页&emsp;
+        <a href="<%=request.getContextPath()%>/jsp/user/mainlist.jsp?pageIndex=1&TypesId=<%=type%>">首页</a>
+        <a href="<%=request.getContextPath()%>/jsp/user/mainlist.jsp?pageIndex=<%=pages.getCurPage()>1? pages.getCurPage()-1:1%>&TypesId=<%=type%>">上一页</a>&emsp;
+        <a href="<%=request.getContextPath()%>/jsp/user/mainlist.jsp?pageIndex=<%=pages.getCurPage()<pages.getTotalPageCount()?pages.getCurPage()+1:pages.getTotalPageCount() %>&TypesId=<%=type%>">下一页</a>&emsp;
+        <a href="<%=request.getContextPath()%>/jsp/user/mainlist.jsp?pageIndex=<%=pages.getTotalPageCount()%>&TypesId=<%=type%>">尾页</a>
+        &emsp;&emsp;跳转至
+        <form action="<%=request.getContextPath()%>/jsp/user/mainlist.jsp" method="get" style="display:inline;">
+            <input type="text" size="5" name="pageIndex">
+            <input type="hidden" name="TypesId" value="<%=type%>">
+            <button type="submit" id="btnpage">GO</button>
+        </form>
+
     </div>
 </div>
 </body>

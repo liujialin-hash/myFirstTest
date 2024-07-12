@@ -15,7 +15,7 @@ import java.util.List;
 public interface CateNewsService {
 
 
-    public List<News> getAllNewsByType(String type);
+    public List<News> getAllNewsByType(String type,Integer beginPage,Integer pageSize );
 
     public News getCateNewsById(String id);
 
@@ -24,4 +24,6 @@ public interface CateNewsService {
     public int deleteByCateNewsId(String id);
 
     public int insert(News news);
+
+    public Integer getCount(String typeId);
 }

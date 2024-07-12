@@ -21,7 +21,7 @@
         String newsType = request.getParameter("newsType");
         String newsTitle = request.getParameter("newsTitle");
         String newsAbstract = request.getParameter("newsAbstract");
-        String newsText = request.getParameter("editor1");
+        String newsText = request.getParameter("newscontent");
         String newsAuthor = request.getParameter("newsAuthor");
         String id = request.getParameter("newsId");
         if (newsType == null || newsTitle == null || newsAbstract == null || newsText == null || newsAuthor == null || id == null) {
