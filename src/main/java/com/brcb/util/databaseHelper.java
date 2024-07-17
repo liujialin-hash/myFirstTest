@@ -45,10 +45,11 @@ public class databaseHelper {
         List<T> tList = new ArrayList<>();
 
         try {
-            /*将sql流化*/
-            putPrepared(sql, param);
             String completeSql = getCompleteSql(sql, param);
             logger.info("Complement SQL statement: {}", completeSql);
+            /*将sql流化*/
+            putPrepared(sql, param);
+
             while (rs.next()) {
                 /*获取实例*/
                 T t = clazz.getDeclaredConstructor().newInstance();
@@ -68,9 +69,10 @@ public class databaseHelper {
         con = getCon();
         T onlyOne = null;
         try {
-            putPrepared(sql, param);
             String completeSql = getCompleteSql(sql, param);
             logger.info("Complement sql statement {}", completeSql);
+            putPrepared(sql, param);
+
             logger.info(rs);
             while (rs.next()) {
                 if (clazz == Integer.class) { // 如果返回类型是Integer

@@ -9,7 +9,7 @@
 <%@ page import="java.io.File" %>
 <%@ page import="com.brcb.service.CateNewsService" %>
 <%@ page import="com.brcb.service.impl.CateNewsServiceImpl" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <jsp:useBean id="news" class="com.brcb.entity.News" scope="page"></jsp:useBean>
 
 <%

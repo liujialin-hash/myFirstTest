@@ -77,6 +77,8 @@
             background-color: #2980b9;
         }
     </style>
+    <!-- 引入CKEditor脚本 -->
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
 <body>
 <div class="container">

@@ -2,10 +2,8 @@
 <%@ page import="com.brcb.service.impl.CateNewsServiceImpl" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>删除新闻</title>
     <style>
         body {

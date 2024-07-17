@@ -1,5 +1,3 @@
-<%@ page import="com.brcb.service.CateAllNewsTypeService" %>
-<%@ page import="com.brcb.service.impl.CateAllNewsTypesServiceImpl" %>
 <%@ page import="com.brcb.entity.News" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.brcb.dao.CateNews" %>
@@ -28,11 +26,15 @@
     Page pages = (Page)session.getAttribute("pages");
     try {
         allNewsByType = cate.getAllNewsByNewsType(newsType,pages.getCurPage(),pages.getPageSize());
+        CateNews cate1 = new CateNewsImpl();
+        Integer count = cate1.getCount(newsType);
+        pages.setTotalPageCount(count);
+        pages.setTotalCount(count);
+        session.setAttribute("pages",pages);
     } catch (Exception e) {
         throw new RuntimeException(e);
     }
     request.setAttribute("newsList", allNewsByType);
     session.setAttribute("newsType", newsType);
     request.getRequestDispatcher(turePage).forward(request,response);
-
 %>

@@ -1,20 +1,19 @@
-<%@ page import="com.brcb.service.CateNewsService" %>
-<%@ page import="com.brcb.service.impl.CateNewsServiceImpl" %>
-<%@ page import="com.brcb.entity.News" %>
-<%@ page import="java.awt.image.TileObserver" %>
-<%@ page import="org.apache.logging.log4j.Logger" %>
-<%@ page import="org.apache.logging.log4j.LogManager" %><%--
+<%--
   ~ Copyright (c) 2024. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
   ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
   ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   --%>
-
+<%@ page import="com.brcb.service.CateNewsService" %>
+<%@ page import="com.brcb.service.impl.CateNewsServiceImpl" %>
+<%@ page import="org.apache.logging.log4j.Logger" %>
+<%@ page import="org.apache.logging.log4j.LogManager" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="news" class="com.brcb.entity.News" scope="page"></jsp:useBean>
 <%
     Logger logger = LogManager.getLogger();
+        request.setCharacterEncoding("UTF-8");
     try {
 
         CateNewsService cateNewsService = new CateNewsServiceImpl();

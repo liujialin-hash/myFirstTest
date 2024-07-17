@@ -2,32 +2,30 @@
 <%@ page import="com.brcb.service.UserService" %>
 <%@ page import="com.brcb.service.impl.UserServiceImpl" %>
 <%@ page import="com.brcb.entity.UserInfo" %>
-<%@ page import="com.brcb.service.CateAllNewsTypeService" %>
-<%@ page import="com.brcb.service.impl.CateAllNewsTypesServiceImpl" %>
-<%@ page import="com.brcb.entity.NewsType" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.brcb.entity.News" %>
-<%@ page import="com.brcb.dao.CateNews" %>
-<%@ page import="com.brcb.dao.impl.CateNewsImpl" %>
-<%@ page import="com.brcb.service.CateNewsService" %>
-<%@ page import="com.brcb.service.impl.CateNewsServiceImpl" %>
 <%
+    String errora = "登录失败，用户名错误";
+    String errorb = "登录失败，密码错误";
+    String errorPage = "/jsp/user/login.jsp";
     String flag = request.getParameter("flag");
+
+    UserService userService = new UserServiceImpl();
+    UserInfo login = null;
     if (flag.equals("login")) {
         /*获取输入*/
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        /*调用登录接口*/
-        UserService userService = new UserServiceImpl();
-        UserInfo login = null;
-        try {
-            login = userService.login(username);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (username == null) {
+            errora = "用户名为空";
+        } else if (password == null) {
+            errora = "密码为空";
+        } else {
+            /*调用登录接口*/
+            try {
+                login = userService.login(username);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
-        String errora = "登录失败，用户名错误";
-        String errorb = "登录失败，密码错误";
-        String errorPage = "/jsp/user/login.jsp";
         /*判断登录是否成功*/
         if (login == null) {
             request.setAttribute("msg", errora);

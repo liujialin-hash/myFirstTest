@@ -51,11 +51,11 @@ public class CateNewsImpl extends databaseHelper implements CateNews {
     public List<News> getAllNewsByNewsType(String type,Integer curPage,Integer pageSize) throws Exception {
         StringBuilder sql = new StringBuilder("select * from news");
         List<News> news = null;
-        if (type != null && !type.equals("0")) {
-            sql.append(" where type_id = ? limit ?,?");
+        if (type != null && !type.equals("0")&&!type.isEmpty()) {
+            sql.append(" where type_id = ? order by date DESC limit ?,?");
             news = selectAll(sql.toString(), News.class, type ,curPage,pageSize);
         } else {
-            sql.append(" limit ?,?");
+            sql.append(" order by date DESC limit  ?,?");
             news = selectAll(sql.toString(), News.class,curPage,pageSize);
         }
         logger.info("News date has been updated");
@@ -84,7 +84,7 @@ public class CateNewsImpl extends databaseHelper implements CateNews {
     public Integer getCount(String typeId) throws Exception {
         Integer count=0;
         StringBuffer sql=new StringBuffer("select count(1) from news");
-        if (typeId!=null&&!typeId.isEmpty()){
+        if (typeId!=null&&!typeId.isEmpty()&&!typeId.equals("0")){
             sql.append(" where type_id=?");
             count = selectOne(sql.toString(), Integer.class, typeId);
         }else {

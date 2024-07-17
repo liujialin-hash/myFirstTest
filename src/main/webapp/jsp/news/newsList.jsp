@@ -7,8 +7,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新闻列表</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/styles.css">
     <script>
@@ -92,10 +90,21 @@
     <div class="pagination">
         <%
             CateNewsService s = new CateNewsServiceImpl();
-            Integer count = s.getCount(null);
             Page pages = (Page) session.getAttribute("pages");
-            String type = (String) session.getAttribute("type");
+            String type = (String) session.getAttribute("newsType");
+            Integer count = s.getCount(type);
         %>
+        <%
+            int sessionTimeout = session.getMaxInactiveInterval(); // 获取会话超时时间（秒）
+        %>
+        <script type="text/javascript">
+            var sessionTimeout = <%= sessionTimeout * 1000 %>; // 会话超时时间（毫秒）
+
+            setTimeout(function () {
+                alert("会话已超时，请重新登录。");
+                window.location.href = "<%= request.getContextPath() %>/jsp/user/login.jsp";
+            }, sessionTimeout);
+        </script>
 
         <!-- 在这里实现分页逻辑 -->
         共<%=count%>条记录&emsp;当前页<%=pages.getCurPage()%>/<%=pages.getTotalPageCount()%>页&emsp;

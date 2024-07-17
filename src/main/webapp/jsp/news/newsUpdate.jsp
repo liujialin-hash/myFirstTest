@@ -2,7 +2,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.brcb.entity.News" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
 <html>
 <head>
     <title>修改新闻</title>
@@ -63,7 +62,7 @@
             background-color: #2980b9;
         }
     </style>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
 <body>
 <div class="container">

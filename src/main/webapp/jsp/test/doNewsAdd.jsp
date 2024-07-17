@@ -5,7 +5,7 @@
 <%@ page import="com.brcb.service.impl.CateNewsServiceImpl" %>
 
 <%@ page import="java.util.UUID" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"  %>
 <jsp:useBean id="news" class="com.brcb.entity.News" scope="page"></jsp:useBean>
 
 <%
